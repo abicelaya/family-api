@@ -41,21 +41,18 @@ def handle_get_member(id):
 
 @app.route('/member', methods=['POST'])
 def handle_add_member():
-    request_body = request.get_jason(request.data)
+    request_body = request.get_json()
     if request_body:
         jackson_family.add_member(request_body)
-        return jsonify(request_body), 200
+        return jsonify(), 200
     else:
         return "Ocurrio un error", 400
 
 
 @app.route('/member/<int:id>', methods=['DELETE'])
 def handle_delete_member(id):
-    if id < len(member):
-        member.pop(id)
-    else:
-        return 'position not found'
-    response = jsonify(member)
+    jackson_family.delete_member(id)
+    response = jsonify({"done": True})
     return response
 
 # this only runs if `$ python src/app.py` is executed
